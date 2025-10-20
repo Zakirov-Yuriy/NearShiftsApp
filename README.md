@@ -1,97 +1,223 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# NearShifts App
 
-# Getting Started
+#Описание проекта
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+**NearShifts** — мобильное приложение для поиска ближайших смен работы с геолокацией. Приложение позволяет пользователям быстро находить актуальные вакансии в их районе с удобным интерфейсом и кешированием данных.
 
-## Step 1: Start Metro
+# Ключевые возможности
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **Геолокация**: Автоматическое определение местоположения пользователя при первом запуске
+- **Умная сортировка**: Отображение смен отсортированных по расстоянию (алгоритм Haversine)
+- **Кеширование**: Данные о сменах хранятся в MobX store для мгновенного доступа
+- **Детальная информация**: Полная информация о смене без повторных запросов к API
+- **Адаптивный UI**: Современный интерфейс с поддержкой темной темы и анимаций
+- **Обработка ошибок**: Грамотная обработка сетевых ошибок и отсутствия данных
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+# Стек технологий
 
-```sh
-# Using npm
+| Технология | Назначение | Версия |
+|------------|------------|---------|
+| **React Native CLI** | Фреймворк для мобильной разработки | 0.73+ |
+| **TypeScript** | Типизация JavaScript | 5.0+ |
+| **React Navigation** | Навигация между экранами | 6.0+ |
+| **MobX** | Управление состоянием приложения | 6.0+ |
+| **React Native Permissions** | Работа с разрешениями Android | 4.0+ |
+| **React Native Geolocation** | Получение геолокации устройства | 3.0+ |
+| **ESLint** | Статический анализ кода | 8.0+ |
+| **Prettier** | Форматирование кода | 3.0+ |
+| **Jest** | Тестирование | 29.0+ |
+| **Testing Library** | Тестирование React компонентов | 12.0+ |
+
+# рхитектура проекта
+
+Проект построен с использованием современных архитектурных подходов:
+
+- **Clean Architecture** — разделение на слои (UI, бизнес-логика, данные)
+- **Feature-Sliced Design** — модульная организация кода по функциональным доменам
+- **SOLID принципы** — для обеспечения качества и расширяемости кода
+- **TypeScript** — строгая типизация всех компонентов и сервисов
+
+# Структура проекта
+
+```
+src/
+├── app/                    # Конфигурация приложения
+│   ├── navigation/        # Навигация (React Navigation)
+│   ├── providers/         # Провайдеры (MobX stores)
+│   └── App.tsx           # Главный компонент приложения
+├── components/            # Переиспользуемые UI компоненты
+│   ├── UI/               # Базовые UI элементы
+│   └── ShiftCard.tsx     # Карточка смены
+├── screens/              # Экраны приложения
+│   ├── ShiftListScreen.tsx    # Список смен
+│   └── ShiftDetailsScreen.tsx # Детали смены
+├── stores/               # MobX stores
+│   ├── root.store.ts     # Корневой store
+│   └── shifts.store.ts   # Store управления сменами
+├── services/             # Бизнес-логика и API
+│   ├── api.ts           # HTTP клиент
+│   ├── location.ts      # Сервисы геолокации
+│   └── distance.ts      # Расчет расстояний
+├── types/               # TypeScript типы
+├── lib/                 # Утилиты и хелперы
+└── styles/              # Глобальные стили
+```
+
+# Предварительные требования
+
+Перед запуском убедитесь, что у вас установлены:
+
+- **Node.js** >= 18.0.0
+- **npm** или **yarn**
+- **Android Studio** (для эмулятора Android)
+- **JDK** 11+
+- **Git**
+
+
+# Установка и запуск
+
+# 1. Клонирование репозитория
+
+```bash
+git clone <repository-url>
+cd NearShiftsApp
+```
+
+# 2. Установка зависимостей
+
+```bash
+npm install
+# или
+yarn install
+```
+
+# 3. Установка iOS зависимостей (macOS)
+
+```bash
+cd ios
+pod install
+cd ..
+```
+
+# 4. Запуск на платформах
+
+# Android
+
+```bash
+# Сборка и запуск на устройстве/эмуляторе
+npx react-native run-android
+
+# Альтернативно, запуск только Metro bundler
 npm start
-
-# OR using Yarn
-yarn start
+# В другом терминале
+npx react-native run-android
 ```
 
-## Step 2: Build and run your app
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
-### Android
+# Тестирование
 
-```sh
-# Using npm
-npm run android
+Проект включает полный набор тестов с покрытием > 80%:
 
-# OR using Yarn
-yarn android
+# апуск всех тестов
+
+```bash
+# Запуск всех тестов
+npm test
+
+# Запуск с покрытием кода
+npm run test:coverage
+
+# Запуск конкретного тестового файла
+npx jest src/components/__tests__/ShiftCard.test.tsx
+
+# Запуск в режиме наблюдения
+npm run test:watch
 ```
 
-### iOS
+# Структура тестов
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+- **Unit тесты** — тестирование отдельных функций и компонентов
+- **Integration тесты** — тестирование взаимодействия компонентов
+- **E2E тесты** — сквозное тестирование пользовательских сценариев
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+# Конфигурация тестирования
 
-```sh
-bundle install
+Тесты настроены с использованием:
+- **Jest** — тестовый раннер
+- **React Native Testing Library** — утилиты для тестирования RN компонентов
+- **Mock сервисы** — моки для внешних зависимостей
+
+
+
+# Доступные команды
+
+```bash
+# Запуск приложения
+npm start                 # Metro bundler
+npm run android          # Android
+npm run ios             # iOS
+
+# Тестирование
+npm test                # Все тесты
+npm run test:watch      # Режим наблюдения
+npm run test:coverage   # С покрытием
+
+# Линтинг и форматирование
+npm run lint            # Проверка кода
+npm run lint:fix        # Автоисправление
+npm run format          # Форматирование кода
+
+# Сборка
+npm run build:android   # APK для Android
+npm run build:ios       # IPA для iOS
 ```
 
-Then, and every time you update your native dependencies, run:
+# Формат API ответа
 
-```sh
-bundle exec pod install
+```json
+{
+  "data": [
+    {
+      "id": "string",
+      "logo": "string",
+      "coordinates": {
+        "longitude": "number",
+        "latitude": "number"
+      },
+      "address": "string",
+      "companyName": "string",
+      "dateStartByCity": "string",
+      "timeStartByCity": "string",
+      "timeEndByCity": "string",
+      "currentWorkers": "number",
+      "planWorkers": "number",
+      "workTypes": [
+        {
+          "id": "number",
+          "name": "string",
+          "nameGt5": "string",
+          "nameLt5": "string",
+          "nameOne": "string"
+        }
+      ],
+      "priceWorker": "number",
+      "bonusPriceWorker": "number",
+      "customerFeedbacksCount": "string",
+      "customerRating": "number | null",
+      "isPromotionEnabled": "boolean"
+    }
+  ],
+  "status": "number"
+}
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+#  Контакты
 
-```sh
-# Using npm
-npm run ios
+- **Разработчик**: Юрий
+- **Email**: Zakcoyote@gmail.com 
+- **Telegram**: @Zak_Yuri
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+⭐ Если проект вам понравился, поставьте звезду!
