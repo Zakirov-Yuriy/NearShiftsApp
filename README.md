@@ -9,7 +9,7 @@
 <div align="center">
 
 # Экран списка смен
-![Экран загрузки](screenshots/one.png)
+![Экран загрузки](NearShiftsApp/screenshots/one.png)
 
 # Детали смены
 ![Экран списка смен ](screenshots/two.png)
@@ -30,20 +30,12 @@
 
 # Стек технологий
 
-| Технология | Назначение | Версия |
-|------------|------------|---------|
-| **React Native CLI** | Фреймворк для мобильной разработки | 0.73+ |
-| **TypeScript** | Типизация JavaScript | 5.0+ |
-| **React Navigation** | Навигация между экранами | 6.0+ |
-| **MobX** | Управление состоянием приложения | 6.0+ |
-| **React Native Permissions** | Работа с разрешениями Android | 4.0+ |
-| **React Native Geolocation** | Получение геолокации устройства | 3.0+ |
-| **ESLint** | Статический анализ кода | 8.0+ |
-| **Prettier** | Форматирование кода | 3.0+ |
-| **Jest** | Тестирование | 29.0+ |
-| **Testing Library** | Тестирование React компонентов | 12.0+ |
+| Framework                                                                                                 | Language                                                                                       | State Management                                                             | Navigation                                                                                                    | Permissions & Geo                                                                                                                                           | Linting & Formatting                                                                                                                                                        | Testing                                                                                                                                                                                      |
+| --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![React Native CLI](https://img.shields.io/badge/React%20Native%20CLI-61DAFB?logo=react\&logoColor=white) | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript\&logoColor=white) | ![MobX](https://img.shields.io/badge/MobX-FF9955?logo=mobx\&logoColor=white) | ![React Navigation](https://img.shields.io/badge/React%20Navigation-000000?logo=reactrouter\&logoColor=white) | ![Permissions](https://img.shields.io/badge/RN%20Permissions-4.0%2B-blueviolet) ![Geolocation](https://img.shields.io/badge/RN%20Geolocation-3.0%2B-008080) | ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint\&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?logo=prettier\&logoColor=black) | ![Jest](https://img.shields.io/badge/Jest-C21325?logo=jest\&logoColor=white) ![Testing Library](https://img.shields.io/badge/Testing%20Library-E33332?logo=testing-library\&logoColor=white) |
 
-# рхитектура проекта
+
+# Архитектура проекта
 
 Проект построен с использованием современных архитектурных подходов:
 
