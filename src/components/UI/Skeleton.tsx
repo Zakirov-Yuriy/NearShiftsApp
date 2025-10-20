@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '../../app/providers/AppProviders';
 
 interface SkeletonProps {
   width?: number | `${number}%`;
@@ -7,7 +9,10 @@ interface SkeletonProps {
   borderRadius?: number;
 }
 
-export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 20, borderRadius = 4 }) => {
+export const Skeleton: React.FC<SkeletonProps> = observer(({ width = '100%', height = 20, borderRadius = 4 }) => {
+  const { themeStore } = useStores();
+  const { colors } = themeStore.currentTheme;
+
   const animatedValue = new Animated.Value(0);
 
   React.useEffect(() => {
@@ -38,15 +43,20 @@ export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 20,
     <Animated.View
       style={[
         styles.skeleton,
-        { width, height, borderRadius },
-        { opacity },
+        {
+          width,
+          height,
+          borderRadius,
+          backgroundColor: colors.skeleton,
+          opacity,
+        },
       ]}
     />
   );
-};
+});
 
 const styles = StyleSheet.create({
   skeleton: {
-    backgroundColor: '#e0e0e0',
+    // backgroundColor будет установлен динамически из темы
   },
 });

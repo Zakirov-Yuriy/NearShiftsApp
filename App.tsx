@@ -3,12 +3,16 @@
 Отвечает за получение геолокации и инициализацию навигации
  */
 import React, { useEffect, useState } from 'react';
-import { AppProviders } from './src/app/providers/AppProviders';
+import { AppProviders, useStores } from './src/app/providers/AppProviders';
 import { View, Text, StyleSheet } from 'react-native';
 import { requestLocationPermission, getCurrentLocation } from './src/services/location';
 import RootNavigator from './src/app/navigation/RootNavigator';
+import { observer } from 'mobx-react-lite';
 
-function App() {
+const AppContent: React.FC = observer(() => {
+  const { themeStore } = useStores();
+  const { colors } = themeStore.currentTheme;
+
   // Состояние для хранения координат пользователя
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   // Состояние разрешения на геолокацию
@@ -60,22 +64,33 @@ function App() {
   }, []);
 
   return (
-    <AppProviders>
+    <>
       {permissionGranted === null ? (
-        <View style={styles.container}>
-          <Text style={styles.text}>Запрос разрешения на геолокацию...</Text>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
+          <Text style={[styles.text, { color: colors.text }]}>Запрос разрешения на геолокацию...</Text>
         </View>
       ) : permissionGranted === false ? (
-        <View style={styles.container}>
-          <Text style={styles.text}>Разрешение на геолокацию отклонено. Пожалуйста, предоставьте разрешение в настройках приложения.</Text>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
+          <Text style={[styles.text, { color: colors.text }]}>
+            Разрешение на геолокацию отклонено.{'\n'}
+            Пожалуйста, предоставьте разрешение в настройках приложения.
+          </Text>
         </View>
       ) : location ? (
         <RootNavigator latitude={location.latitude} longitude={location.longitude} />
       ) : (
-        <View style={styles.container}>
-          <Text style={styles.text}>Определение местоположения...</Text>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
+          <Text style={[styles.text, { color: colors.text }]}>Определение местоположения...</Text>
         </View>
       )}
+    </>
+  );
+});
+
+function App() {
+  return (
+    <AppProviders>
+      <AppContent />
     </AppProviders>
   );
 }
@@ -90,7 +105,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     textAlign: 'center',
-    color: '#333',
+    // color будет установлен динамически из темы в компоненте
   },
 });
 

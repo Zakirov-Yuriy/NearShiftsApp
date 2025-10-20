@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '../../app/providers/AppProviders';
 import { Button } from './Button';
 
 interface ErrorViewProps {
@@ -7,16 +9,19 @@ interface ErrorViewProps {
   onRetry?: () => void;
 }
 
-export const ErrorView: React.FC<ErrorViewProps> = ({ message, onRetry }) => {
+export const ErrorView: React.FC<ErrorViewProps> = observer(({ message, onRetry }) => {
+  const { themeStore } = useStores();
+  const { colors } = themeStore.currentTheme;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.errorText}>{message}</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.errorText, { color: colors.error }]}>{message}</Text>
       {onRetry && (
         <Button title="Повторить" onPress={onRetry} style={styles.retryButton} />
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +32,6 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: '#d32f2f',
     textAlign: 'center',
     marginBottom: 20,
   },

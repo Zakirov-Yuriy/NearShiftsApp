@@ -6,64 +6,65 @@ import { Rating } from '../components/UI/Rating';
 import { formatPrice, formatWorkers, formatTime } from '../lib/formatters';
 
 const ShiftDetailsScreen: React.FC = observer(() => {
-  const { shiftsStore } = useStores();
+  const { shiftsStore, themeStore } = useStores();
+  const { colors } = themeStore.currentTheme;
   const shift = shiftsStore.selected;
 
   if (!shift) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>Смена не найдена</Text>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <Text style={[styles.errorText, { color: colors.error }]}>Смена не найдена</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
         <Image source={{ uri: shift.logo }} style={styles.logo} />
         <View style={styles.headerText}>
-          <Text style={styles.companyName}>{shift.companyName}</Text>
-          <Text style={styles.address}>{shift.address}</Text>
+          <Text style={[styles.companyName, { color: colors.text }]}>{shift.companyName}</Text>
+          <Text style={[styles.address, { color: colors.textSecondary }]}>{shift.address}</Text>
         </View>
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Дата и время</Text>
-        <Text style={styles.text}>{shift.dateStartByCity}</Text>
-        <Text style={styles.text}>{formatTime(shift.timeStartByCity, shift.timeEndByCity)}</Text>
+      <View style={[styles.section, { backgroundColor: colors.surface, borderRadius: 8, padding: 16, marginBottom: 16 }]}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Дата и время</Text>
+        <Text style={[styles.text, { color: colors.text }]}>{shift.dateStartByCity}</Text>
+        <Text style={[styles.text, { color: colors.text }]}>{formatTime(shift.timeStartByCity, shift.timeEndByCity)}</Text>
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Оплата</Text>
-        <Text style={styles.price}>{formatPrice(shift.priceWorker)} за час</Text>
+      <View style={[styles.section, { backgroundColor: colors.surface, borderRadius: 8, padding: 16, marginBottom: 16 }]}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Оплата</Text>
+        <Text style={[styles.price, { color: colors.primary }]}>{formatPrice(shift.priceWorker)} за час</Text>
         {shift.bonusPriceWorker > 0 && (
-          <Text style={styles.bonus}>Бонус: {formatPrice(shift.bonusPriceWorker)}</Text>
+          <Text style={[styles.bonus, { color: colors.success }]}>Бонус: {formatPrice(shift.bonusPriceWorker)}</Text>
         )}
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Работники</Text>
-        <Text style={styles.text}>{formatWorkers(shift.currentWorkers, shift.planWorkers)}</Text>
+      <View style={[styles.section, { backgroundColor: colors.surface, borderRadius: 8, padding: 16, marginBottom: 16 }]}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Работники</Text>
+        <Text style={[styles.text, { color: colors.text }]}>{formatWorkers(shift.currentWorkers, shift.planWorkers)}</Text>
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Рейтинг</Text>
+      <View style={[styles.section, { backgroundColor: colors.surface, borderRadius: 8, padding: 16, marginBottom: 16 }]}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Рейтинг</Text>
         <Rating rating={shift.customerRating} />
-        <Text style={styles.reviews}>Отзывов: {shift.customerFeedbacksCount}</Text>
+        <Text style={[styles.reviews, { color: colors.textMuted }]}>Отзывов: {shift.customerFeedbacksCount}</Text>
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Типы работ</Text>
+      <View style={[styles.section, { backgroundColor: colors.surface, borderRadius: 8, padding: 16, marginBottom: 16 }]}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Типы работ</Text>
         {shift.workTypes.map((workType: any) => (
-          <Text key={workType.id} style={styles.workType}>
+          <Text key={workType.id} style={[styles.workType, { color: colors.text }]}>
             {workType.name}
           </Text>
         ))}
       </View>
 
       {shift.isPromotionEnabled && (
-        <View style={styles.promotion}>
-          <Text style={styles.promotionText}>Акционная смена!</Text>
+        <View style={[styles.promotion, { backgroundColor: colors.warning + '20', borderColor: colors.warning }]}>
+          <Text style={[styles.promotionText, { color: colors.warning }]}>Акционная смена!</Text>
         </View>
       )}
     </ScrollView>
@@ -73,7 +74,6 @@ const ShiftDetailsScreen: React.FC = observer(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     padding: 16,
   },
   header: {
@@ -93,63 +93,51 @@ const styles = StyleSheet.create({
   companyName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
     marginBottom: 4,
   },
   address: {
     fontSize: 16,
-    color: '#666',
   },
   section: {
-    marginBottom: 24,
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
     marginBottom: 8,
   },
   text: {
     fontSize: 16,
-    color: '#333',
     marginBottom: 4,
   },
   price: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007bff',
   },
   bonus: {
     fontSize: 16,
-    color: '#28a745',
     marginTop: 4,
   },
   reviews: {
     fontSize: 14,
-    color: '#666',
     marginTop: 4,
   },
   workType: {
     fontSize: 16,
-    color: '#333',
     marginBottom: 4,
   },
   promotion: {
-    backgroundColor: '#fff3cd',
     padding: 12,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ffeaa7',
   },
   promotionText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#856404',
     textAlign: 'center',
   },
   errorText: {
     fontSize: 18,
-    color: '#d32f2f',
     textAlign: 'center',
     marginTop: 50,
   },

@@ -4,6 +4,8 @@
  */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '../app/providers/AppProviders';
 import { Shift } from '../types/shift';
 import { formatPrice, formatRating, formatWorkers, formatTime, formatDistance } from '../lib/formatters';
 
@@ -25,33 +27,39 @@ interface ShiftCardProps {
 Компонент карточки смены
 Отображает основную информацию о смене в виде интерактивной карточки
  */
-export const ShiftCard: React.FC<ShiftCardProps> = ({ shift, distance, onPress, testID }) => {
+export const ShiftCard: React.FC<ShiftCardProps> = observer(({ shift, distance, onPress, testID }) => {
+  const { themeStore } = useStores();
+  const { colors } = themeStore.currentTheme;
+
   console.log('ShiftCard: Rendering shift', shift.id, shift.companyName);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress} testID={testID}>
+    <TouchableOpacity
+      style={[styles.container, { backgroundColor: colors.card }]}
+      onPress={onPress}
+      testID={testID}
+    >
       <View style={styles.header}>
         <Image source={{ uri: shift.logo }} style={styles.logo} />
         <View style={styles.headerText}>
-          <Text style={styles.companyName}>{shift.companyName}</Text>
-          <Text style={styles.address}>{shift.address}</Text>
+          <Text style={[styles.companyName, { color: colors.text }]}>{shift.companyName}</Text>
+          <Text style={[styles.address, { color: colors.textSecondary }]}>{shift.address}</Text>
         </View>
       </View>
       <View style={styles.details}>
-        <Text style={styles.date}>{shift.dateStartByCity}</Text>
-        <Text style={styles.time}>{formatTime(shift.timeStartByCity, shift.timeEndByCity)}</Text>
-        <Text style={styles.price}>{formatPrice(shift.priceWorker)}</Text>
-        <Text style={styles.workers}>{formatWorkers(shift.currentWorkers, shift.planWorkers)}</Text>
-        <Text style={styles.rating}>★ {formatRating(shift.customerRating)}</Text>
-        {distance && <Text style={styles.distance}>{formatDistance(distance)}</Text>}
+        <Text style={[styles.date, { color: colors.text }]}>{shift.dateStartByCity}</Text>
+        <Text style={[styles.time, { color: colors.text }]}>{formatTime(shift.timeStartByCity, shift.timeEndByCity)}</Text>
+        <Text style={[styles.price, { color: colors.primary }]}>{formatPrice(shift.priceWorker)}</Text>
+        <Text style={[styles.workers, { color: colors.textMuted }]}>{formatWorkers(shift.currentWorkers, shift.planWorkers)}</Text>
+        <Text style={[styles.rating, { color: colors.warning }]}>★ {formatRating(shift.customerRating)}</Text>
+        {distance && <Text style={[styles.distance, { color: colors.textMuted }]}>{formatDistance(distance)}</Text>}
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 16,
     marginVertical: 8,
@@ -79,11 +87,9 @@ const styles = StyleSheet.create({
   companyName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
   },
   address: {
     fontSize: 14,
-    color: '#666',
   },
   details: {
     flexDirection: 'row',
@@ -92,27 +98,21 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 14,
-    color: '#333',
   },
   time: {
     fontSize: 14,
-    color: '#333',
   },
   price: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#007bff',
   },
   workers: {
     fontSize: 14,
-    color: '#666',
   },
   rating: {
     fontSize: 14,
-    color: '#ffa500',
   },
   distance: {
     fontSize: 14,
-    color: '#666',
   },
 });
