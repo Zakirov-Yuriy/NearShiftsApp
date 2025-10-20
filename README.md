@@ -9,7 +9,7 @@
 <div align="center">
 
 # Экран списка смен
-![Экран загрузки](NearShiftsApp/screenshots/one.png)
+![Экран загрузки](../NearShiftsApp/screenshots/one.png)
 
 # Детали смены
 ![Экран списка смен ](screenshots/two.png)
