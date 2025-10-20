@@ -367,7 +367,7 @@ android/app/release.keystore
 # Fastlane
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots/
+
 fastlane/test_output/
 
 # Watchman
@@ -550,7 +550,6 @@ surge.list
 # Images
 *.jpg
 *.jpeg
-*.png
 *.gif
 *.svg
 *.ico
